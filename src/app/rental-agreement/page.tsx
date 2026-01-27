@@ -1,12 +1,13 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Header, Footer } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 
-export default function RentalAgreementPage() {
+function RentalAgreementContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const checkbox = searchParams.get('checkbox');
@@ -272,5 +273,13 @@ export default function RentalAgreementPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function RentalAgreementPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <RentalAgreementContent />
+    </Suspense>
   );
 }
