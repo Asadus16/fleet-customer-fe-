@@ -31,7 +31,7 @@ export function CustomerDetailsSection({
     <section>
       <h2 className="font-manrope text-base font-semibold leading-none tracking-tight-2 text-[#141543]">Customer Details</h2>
 
-      <div className="mt-5 grid grid-cols-2 gap-x-8 gap-y-6">
+      <div className="mt-5 grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-8">
         {/* First Name */}
         <div>
           <label className="block text-xs text-slate-500">First Name</label>

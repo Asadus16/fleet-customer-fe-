@@ -16,19 +16,19 @@ export function CTASection({
   backgroundImage = '/images/cta-bg.jpg',
 }: CTASectionProps) {
   return (
-    <section className="relative z-10 mx-auto -mb-44 max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <section className="relative z-10 mx-auto mb-8 max-w-6xl px-0 py-8 sm:-mb-44 sm:py-12 sm:px-6 lg:px-8">
       <div
-        className="relative overflow-hidden rounded-2xl bg-cover bg-center bg-no-repeat"
+        className="relative overflow-hidden rounded-xl bg-cover bg-center bg-no-repeat sm:rounded-2xl"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         {/* Content */}
-        <div className="relative px-8 py-16 text-center md:px-16 md:py-24">
-          <h2 className="text-3xl font-bold text-white md:text-4xl">{title}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-white">{description}</p>
-          <div className="mt-8">
+        <div className="relative px-6 py-12 text-center sm:px-8 sm:py-16 md:px-16 md:py-24">
+          <h2 className="text-4xl font-bold leading-[1.17] tracking-tight-2 text-white lg:text-[36px]">{title}</h2>
+          <p className="section-paragraph mx-auto mt-4 max-w-2xl text-white">{description}</p>
+          <div className="mt-6 sm:mt-8">
             <Link
               href={buttonHref}
-              className="inline-block rounded-lg bg-[#1a75bc] px-10 py-4 text-sm font-medium text-white transition-colors hover:bg-[#155a8a]"
+              className="inline-block rounded-lg bg-[#1a75bc] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#155a8a] sm:px-10 sm:py-4"
             >
               {buttonText}
             </Link>

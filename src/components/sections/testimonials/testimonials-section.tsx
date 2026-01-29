@@ -21,18 +21,18 @@ export function TestimonialsSection({
   testimonials,
 }: TestimonialsSectionProps) {
   return (
-    <section className="bg-[#141543] px-16 py-20">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-[#141543] py-20 pb-24 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl mobile-section-padding lg:px-16">
         {/* Header */}
         <div className="text-center">
           <p className="text-sm font-bold tracking-tight-2 text-primary-light">{title}</p>
-          <h2 className="mt-2 text-[36px] font-bold leading-[1.17] tracking-tight-2 text-white">
+          <h2 className="mt-2 text-4xl font-bold leading-[1.17] tracking-tight-2 text-white lg:text-[36px]">
             {subtitle}
           </h2>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="mt-20 flex justify-evenly">
+        <div className="mt-16 grid grid-cols-1 gap-12 sm:mt-16 sm:grid-cols-2 sm:gap-8 lg:mt-20 lg:grid-cols-3 lg:gap-6">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard
               key={index}

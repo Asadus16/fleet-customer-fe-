@@ -19,7 +19,7 @@ export function FAQItem({ question, answer, defaultOpen = false }: FAQItemProps)
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
-        <span className="text-xs font-bold leading-[1.08] tracking-tight-2 text-slate-900">{question}</span>
+        <span className="text-sm font-bold leading-[1.08] tracking-tight-2 text-slate-900 sm:text-xs">{question}</span>
         <span className="ml-4 flex-shrink-0">
           <ChevronIcon
             className={`h-5 w-5 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
@@ -32,7 +32,7 @@ export function FAQItem({ question, answer, defaultOpen = false }: FAQItemProps)
         }`}
       >
         <div className="overflow-hidden">
-          <p className="pb-5 text-xs font-light leading-none text-slate-600">{answer}</p>
+          <p className="pb-5 text-sm font-light leading-relaxed text-slate-600 sm:text-xs sm:leading-none">{answer}</p>
         </div>
       </div>
     </div>

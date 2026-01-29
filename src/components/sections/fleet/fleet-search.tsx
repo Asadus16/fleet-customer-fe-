@@ -16,12 +16,12 @@ export function FleetSearch({
   onFilterClick,
 }: FleetSearchProps) {
   return (
-    <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
+    <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-0">
+      <h1 className="px-4 text-xl font-semibold tracking-tight text-slate-900 md:px-0 md:text-2xl">{title}</h1>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 px-8 md:px-0">
         {/* Search Input */}
-        <div className="flex items-center gap-3 border-b border-slate-300 pb-2">
+        <div className="flex flex-1 items-center gap-3 border-b border-slate-300 pb-2 md:flex-none">
           <Image
             src="/icons/fleet/search.svg"
             alt="Search"
@@ -33,7 +33,7 @@ export function FleetSearch({
             placeholder="Search"
             value={searchValue}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            className="w-48 border-none bg-transparent text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
+            className="w-full border-none bg-transparent text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none md:w-48"
           />
         </div>
 
@@ -41,7 +41,7 @@ export function FleetSearch({
         <button
           type="button"
           onClick={onFilterClick}
-          className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 transition-colors hover:bg-slate-50"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 transition-colors hover:bg-slate-50"
         >
           <Image
             src="/icons/fleet/filters.svg"

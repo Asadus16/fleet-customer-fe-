@@ -11,7 +11,7 @@ interface TestimonialCardProps {
 
 export function TestimonialCard({ rating, quote, content, author, location, date }: TestimonialCardProps) {
   return (
-    <div className="flex w-[280px] flex-col">
+    <div className="flex w-full flex-col lg:max-w-70">
       <StarRating rating={rating} />
       <blockquote className="mt-4">
         <p className="text-base font-semibold leading-none tracking-tight-2 text-white">&ldquo;{quote}&rdquo;</p>

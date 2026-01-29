@@ -2,9 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const quickLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Fleet', href: '/fleet' },
-  { label: 'FAQ', href: '/faqs' },
+  { label: 'About', href: '/#about' },
+  { label: 'Fleet', href: '/#fleet' },
+  { label: 'FAQ', href: '/#faqs' },
 ];
 
 const socialLinks = [
@@ -33,13 +33,13 @@ export function Footer({
   hasCTAOverlap = false,
 }: FooterProps) {
   return (
-    <footer className={`bg-[#141543] ${hasCTAOverlap ? 'pt-36' : 'pt-10'}`}>
-      <div className="mx-auto max-w-[960px] px-4 py-10">
-        <div className="flex justify-between">
+    <footer id="contact" className={`bg-[#141543] ${hasCTAOverlap ? 'pt-10 sm:pt-36' : 'pt-10'} scroll-mt-20`}>
+      <div className="mx-auto max-w-240 footer-padding py-10">
+        <div className="flex flex-col gap-6 md:flex-row md:gap-10 md:justify-between">
           {/* Logo & Description */}
-          <div className="max-w-[280px]">
+          <div className="max-w-full md:max-w-70">
             {/* Logo */}
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
               <Image
                 src="/logos/mono-logo.png"
                 alt="Kings Car Rental"
@@ -48,11 +48,11 @@ export function Footer({
                 className="h-16 w-auto"
               />
             </div>
-            <p className="mb-6 text-xs font-light leading-tight text-white">
+            <p className="mb-4 text-xs font-light leading-tight text-white sm:mb-6">
               {companyDescription}
             </p>
             {/* Social Links */}
-            <div className="flex gap-3">
+            <div className="mb-4 flex gap-3 sm:mb-0">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -67,7 +67,7 @@ export function Footer({
           </div>
 
           {/* Quick Links & Contact - grouped closer */}
-          <div className="flex gap-16">
+          <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
             {/* Quick Links */}
             <div>
               <h3 className="mb-4 text-lg font-semibold text-primary-light">Quick Links</h3>
@@ -94,10 +94,10 @@ export function Footer({
                     href={`tel:${phone.replace(/\s/g, '')}`}
                     className="flex items-center gap-3 text-xs font-light leading-none text-white transition-colors hover:text-primary-light"
                   >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
-                    {phone}
+                    <span className="break-all">{phone}</span>
                   </a>
                 </li>
                 <li>
@@ -105,14 +105,14 @@ export function Footer({
                     href={`mailto:${email}`}
                     className="flex items-center gap-3 text-xs font-light leading-none text-white transition-colors hover:text-primary-light"
                   >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    {email}
+                    <span className="break-all">{email}</span>
                   </a>
                 </li>
                 <li className="flex items-start gap-3 text-xs font-light leading-none text-white">
-                  <svg className="mt-0.5 h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="mt-0.5 h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -129,11 +129,11 @@ export function Footer({
       </div>
 
       {/* Bottom Bar */}
-      <div className="mx-auto max-w-[960px] px-4">
-        <div className="border-t border-[rgba(192,196,201,1)] py-6 pb-8">
+      <div className="mx-auto max-w-240 footer-padding">
+        <div className="border-t border-[rgba(192,196,201,1)] py-6 pb-20 sm:pb-8">
           <p className="text-center text-2xs font-light leading-none text-white">
             © {new Date().getFullYear()} Kings Car Rental. All rights reserved. | Powered by{' '}
-            <a href="#" className="text-primary-light hover:underline">
+            <a href="#" className="font-bold text-white hover:underline">
               FleetHQ
             </a>
           </p>

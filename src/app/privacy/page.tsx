@@ -3,24 +3,24 @@
 import { Suspense } from 'react';
 import { PolicyPageLayout } from '@/components/layout';
 import { PolicySections } from '@/components/sections';
-import { termsContent } from '@/data/policies';
+import { privacyContent } from '@/data/policies';
 
-function TermsAndConditionsContent() {
+function PrivacyPolicyContent() {
   return (
     <PolicyPageLayout
-      title={termsContent.title}
-      description={termsContent.description}
+      title={privacyContent.title}
+      description={privacyContent.description}
       primaryButtonLabel="Accept"
     >
-      <PolicySections sections={termsContent.sections} />
+      <PolicySections sections={privacyContent.sections} />
     </PolicyPageLayout>
   );
 }
 
-export default function TermsAndConditionsPage() {
+export default function PrivacyPolicyPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-white" />}>
-      <TermsAndConditionsContent />
+      <PrivacyPolicyContent />
     </Suspense>
   );
 }

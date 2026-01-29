@@ -19,16 +19,16 @@ export function FAQSection({
   faqs,
 }: FAQSectionProps) {
   return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-[888px] px-4">
-        <div className="flex gap-12">
+    <section id="faqs" className="bg-white py-20 sm:py-16 lg:py-20 scroll-mt-20">
+      <div className="mx-auto max-w-222 mobile-section-padding sm:px-6">
+        <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
           {/* Left Side - Title & Description */}
-          <div className="w-[320px] flex-shrink-0">
+          <div className="w-full shrink-0 text-center lg:w-80 lg:text-left">
             <p className="text-sm font-bold tracking-tight-2 text-primary-light">{title}</p>
-            <h2 className="mt-2 text-[36px] font-bold leading-[1.17] tracking-tight-2 text-slate-900">
+            <h2 className="mt-2 text-4xl font-bold leading-[1.17] tracking-tight-2 text-slate-900 lg:text-[36px]">
               {subtitle}
             </h2>
-            <p className="mt-4 text-xs font-light leading-[1.61] text-slate-600">{description}</p>
+            <p className="section-paragraph mt-4 text-slate-600">{description}</p>
           </div>
 
           {/* Right Side - FAQ Accordion */}

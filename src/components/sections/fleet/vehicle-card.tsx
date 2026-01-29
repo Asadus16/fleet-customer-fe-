@@ -41,20 +41,20 @@ export function VehicleCard({
           <p className="text-2xs tracking-tight-3 text-slate-500">{location}</p>
 
           {/* Specs */}
-          <div className="mt-2 flex items-center justify-center gap-2 border-t border-slate-100 pt-2">
+          <div className="mt-2 flex items-center justify-center gap-2 border-t border-slate-100 pt-2 md:gap-2">
             <div className="flex items-center gap-1">
               <Image src="/icons/home/choose-us/avatar.svg" alt="Seats" width={10} height={10} />
-              <span className="text-[8px] font-normal leading-none text-slate-500">{seats} Seats</span>
+              <span className="text-2xs font-normal leading-none text-slate-500 md:text-[8px]">{seats} Seats</span>
             </div>
             <span className="text-slate-300">•</span>
             <div className="flex items-center gap-1">
               <Image src="/icons/home/choose-us/transmission.svg" alt="Transmission" width={10} height={10} />
-              <span className="text-[8px] font-normal leading-none text-slate-500">{transmission}</span>
+              <span className="text-2xs font-normal leading-none text-slate-500 md:text-[8px]">{transmission}</span>
             </div>
             <span className="text-slate-300">•</span>
             <div className="flex items-center gap-1">
               <Image src="/icons/home/choose-us/circles.svg" alt="Fuel" width={10} height={10} />
-              <span className="text-[8px] font-normal leading-none text-slate-500">{fuelType}</span>
+              <span className="text-2xs font-normal leading-none text-slate-500 md:text-[8px]">{fuelType}</span>
             </div>
           </div>
 

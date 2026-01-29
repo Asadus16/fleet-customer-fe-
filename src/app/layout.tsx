@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Manrope, Kameron } from 'next/font/google';
 import '@/styles/globals.css';
 import { APP_CONFIG } from '@/constants/config';
+import { MobilePanelProvider } from '@/contexts';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -43,7 +44,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable} ${kameron.variable}`}>
       <body className="min-h-screen bg-slate-50 font-sans antialiased">
-        {children}
+        <MobilePanelProvider>
+          {children}
+        </MobilePanelProvider>
       </body>
     </html>
   );

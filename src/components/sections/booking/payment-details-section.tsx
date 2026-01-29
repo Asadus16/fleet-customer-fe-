@@ -23,7 +23,7 @@ export function PaymentDetailsSection({
     <section>
       <h2 className="font-manrope text-base font-semibold leading-none tracking-tight-2 text-[#141543]">Payment Details</h2>
 
-      <div className="mt-5 rounded-lg border border-slate-200 p-6">
+      <div className="mt-5 -mx-4 rounded-lg border border-slate-200 p-3 md:mx-0 md:p-6">
         {/* Payment Method */}
         <div className="flex items-center gap-3">
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-slate-300">

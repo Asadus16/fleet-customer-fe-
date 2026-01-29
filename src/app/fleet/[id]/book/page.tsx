@@ -12,68 +12,7 @@ import {
   BookingSidebar,
 } from '@/components/sections/booking';
 import { getVehicleById } from '@/data/vehicles';
-
-// Mock data for insurance and extras
-const insuranceOptions = [
-  {
-    id: 'own',
-    title: 'I have my own insurance',
-    price: 0,
-    features: ['Use your personal coverage'],
-  },
-  {
-    id: 'basic',
-    title: 'Basic Protection',
-    price: 14.99,
-    features: ['Collision damage waiver', 'Theft protection'],
-  },
-  {
-    id: 'premium',
-    title: 'Premium Protection',
-    price: 29.99,
-    features: [
-      'Collision damage waiver',
-      'Theft protection',
-      'Personal accident insurance',
-      'Roadside assistance 24/7',
-    ],
-  },
-];
-
-const extras = [
-  {
-    id: 'driver',
-    title: 'Additional Driver',
-    description: 'Add another driver to your rental',
-    price: 12.99,
-    priceUnit: '/day & driver',
-    hasQuantity: true,
-  },
-  {
-    id: 'gps',
-    title: 'GPS Navigation',
-    description: 'Never get lost with our GPS system',
-    price: 9.99,
-    priceUnit: '/day',
-    hasQuantity: false,
-  },
-  {
-    id: 'child-seat',
-    title: 'Child Seat',
-    description: 'Safety seat for children under 12',
-    price: 7.99,
-    priceUnit: '/day',
-    hasQuantity: true,
-  },
-  {
-    id: 'wifi',
-    title: 'Mobile WiFi Hotspot',
-    description: 'Stay connected on the go',
-    price: 5.99,
-    priceUnit: '/day',
-    hasQuantity: false,
-  },
-];
+import { insuranceOptions, extras } from '@/data/booking';
 
 export default function BookingPage() {
   const params = useParams();
@@ -102,19 +41,13 @@ export default function BookingPage() {
   const [cvv, setCvv] = useState('');
 
   // Terms State
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [paymentTermsAccepted, setPaymentTermsAccepted] = useState(false);
 
   // Check for terms acceptance from sessionStorage
   useEffect(() => {
     const acceptedCheckbox = sessionStorage.getItem('termsAccepted');
-    if (acceptedCheckbox) {
-      if (acceptedCheckbox === 'terms') {
-        setTermsAccepted(true);
-      } else if (acceptedCheckbox === 'payment') {
-        setPaymentTermsAccepted(true);
-      }
-      // Clear the sessionStorage after reading
+    if (acceptedCheckbox === 'payment') {
+      setPaymentTermsAccepted(true);
       sessionStorage.removeItem('termsAccepted');
     }
   }, []);
@@ -152,6 +85,47 @@ export default function BookingPage() {
   const total = subtotal - discount + tax;
   const deposit = total * 0.8;
 
+  // Shared sidebar props
+  const sidebarVehicle = {
+    name: vehicleData.name,
+    year: vehicleData.year,
+    description: vehicleData.description,
+    totalPrice: subtotal,
+    images: vehicleData.images,
+  };
+
+  const sidebarPickUp = {
+    address: vehicleData.location,
+    date: 'Tue. 02 Dec, 2025',
+    time: '09:00 AM',
+  };
+
+  const sidebarDropOff = {
+    address: vehicleData.location,
+    date: 'Thu. 04 Dec, 2025',
+    time: '09:00 AM',
+  };
+
+  const sidebarInvoiceProps = {
+    invoiceNumber: '3522',
+    invoiceDescription: vehicleData.description,
+    items: [
+      {
+        image: vehicleData.image,
+        name: `${vehicleData.name} - ${vehicleData.licensePlate}`,
+        licensePlate: vehicleData.licensePlate,
+        quantity: rentalDays,
+        pricePerDay: vehicleData.pricePerDay,
+      },
+    ],
+    subtotal,
+    discount,
+    discountCode,
+    tax,
+    total,
+    deposit,
+  };
+
   const handleExtraToggle = (id: string) => {
     setSelectedExtras((prev) => ({
       ...prev,
@@ -177,10 +151,12 @@ export default function BookingPage() {
   };
 
   const handleReserve = () => {
-    // Navigate to booking details page with a generated booking ID
     const bookingId = Math.floor(10000 + Math.random() * 90000).toString();
     router.push(`/booking/${bookingId}`);
   };
+
+  const handleEditPickUp = () => {};
+  const handleEditDropOff = () => {};
 
   return (
     <div className="min-h-screen bg-white">
@@ -192,101 +168,98 @@ export default function BookingPage() {
 
       <Header showBorderBottom />
 
-      <main className="mx-auto max-w-7xl px-8 pt-8 pb-20">
+      <main className="mx-auto max-w-7xl mobile-section-padding pt-6 pb-0 md:px-8 md:pt-8 md:pb-20">
+        {/* Go Back Link */}
+        <Link
+          href={'/fleet' as never}
+          className="inline-flex items-center text-sm font-medium text-primary underline hover:text-primary-hover"
+        >
+          Go Back
+        </Link>
+
+        {/* Mobile Vehicle Header - Shows on mobile only */}
+        <div className="mt-6 -mx-8 md:hidden">
+          <BookingSidebar
+            variant="mobile-header"
+            vehicle={sidebarVehicle}
+            pickUp={sidebarPickUp}
+            dropOff={sidebarDropOff}
+            onEditPickUp={handleEditPickUp}
+            onEditDropOff={handleEditDropOff}
+          />
+        </div>
+
         {/* Main Content */}
-        <div className="flex gap-12">
+        <div className="mt-6 flex flex-col gap-8 md:flex-row md:gap-12">
           {/* Left Column - Forms */}
-          <div className="flex-1 max-w-[640px]">
-            {/* Go Back Link */}
-            <Link
-              href="/fleet"
-              className="inline-flex items-center text-sm font-medium text-slate-900 underline hover:text-primary"
-            >
-              Go Back
-            </Link>
+          <div className="flex-1 max-w-full md:max-w-[640px]">
+            <div className="space-y-8">
+              <CustomerDetailsSection
+                firstName={firstName}
+                lastName={lastName}
+                email={email}
+                phone={phone}
+                countryCode={countryCode}
+                onFirstNameChange={setFirstName}
+                onLastNameChange={setLastName}
+                onEmailChange={setEmail}
+                onPhoneChange={setPhone}
+                onCountryCodeChange={setCountryCode}
+              />
 
-            <div className="mt-6 space-y-8">
-            <CustomerDetailsSection
-              firstName={firstName}
-              lastName={lastName}
-              email={email}
-              phone={phone}
-              countryCode={countryCode}
-              onFirstNameChange={setFirstName}
-              onLastNameChange={setLastName}
-              onEmailChange={setEmail}
-              onPhoneChange={setPhone}
-              onCountryCodeChange={setCountryCode}
-            />
+              <InsuranceSection
+                options={insuranceOptions}
+                selectedId={selectedInsurance}
+                onSelect={setSelectedInsurance}
+              />
 
-            <InsuranceSection
-              options={insuranceOptions}
-              selectedId={selectedInsurance}
-              onSelect={setSelectedInsurance}
-            />
+              <ExtrasSection
+                extras={extras}
+                selectedExtras={selectedExtras}
+                onToggle={handleExtraToggle}
+                onQuantityChange={handleExtraQuantityChange}
+              />
 
-            <ExtrasSection
-              extras={extras}
-              selectedExtras={selectedExtras}
-              onToggle={handleExtraToggle}
-              onQuantityChange={handleExtraQuantityChange}
-            />
+              <PaymentDetailsSection
+                cardNumber={cardNumber}
+                expiryDate={expiryDate}
+                cvv={cvv}
+                onCardNumberChange={setCardNumber}
+                onExpiryDateChange={setExpiryDate}
+                onCvvChange={setCvv}
+              />
 
-            <PaymentDetailsSection
-              cardNumber={cardNumber}
-              expiryDate={expiryDate}
-              cvv={cvv}
-              onCardNumberChange={setCardNumber}
-              onExpiryDateChange={setExpiryDate}
-              onCvvChange={setCvv}
-            />
+              {/* Mobile Invoice Footer - Shows on mobile only */}
+              <div className="-mx-8 md:hidden">
+                <BookingSidebar
+                  variant="mobile-footer"
+                  vehicle={sidebarVehicle}
+                  pickUp={sidebarPickUp}
+                  dropOff={sidebarDropOff}
+                  {...sidebarInvoiceProps}
+                  onApplyDiscount={handleApplyDiscount}
+                  onEditPickUp={handleEditPickUp}
+                  onEditDropOff={handleEditDropOff}
+                  paymentTermsAccepted={paymentTermsAccepted}
+                  onPaymentTermsChange={setPaymentTermsAccepted}
+                  onReserve={handleReserve}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Right Column - Sidebar */}
-          <div className="w-[520px] flex-shrink-0">
+          {/* Right Column - Sidebar (Desktop only) */}
+          <div className="hidden w-[520px] flex-shrink-0 md:block">
             <div className="sticky top-8">
               <BookingSidebar
-                vehicle={{
-                  name: vehicleData.name,
-                  year: vehicleData.year,
-                  description: vehicleData.description,
-                  totalPrice: subtotal,
-                  images: vehicleData.images,
-                }}
-                pickUp={{
-                  address: vehicleData.location,
-                  date: 'Tue. 02 Dec, 2025',
-                  time: '09:00 AM',
-                }}
-                dropOff={{
-                  address: vehicleData.location,
-                  date: 'Thu. 04 Dec, 2025',
-                  time: '09:00 AM',
-                }}
-                invoiceNumber="3522"
-                invoiceDescription={vehicleData.description}
-                items={[
-                  {
-                    image: vehicleData.image,
-                    name: `${vehicleData.name} - ${vehicleData.licensePlate}`,
-                    licensePlate: vehicleData.licensePlate,
-                    quantity: rentalDays,
-                    pricePerDay: vehicleData.pricePerDay,
-                  },
-                ]}
-                subtotal={subtotal}
-                discount={discount}
-                discountCode={discountCode}
-                tax={tax}
-                total={total}
-                deposit={deposit}
+                vehicle={sidebarVehicle}
+                pickUp={sidebarPickUp}
+                dropOff={sidebarDropOff}
+                {...sidebarInvoiceProps}
                 onApplyDiscount={handleApplyDiscount}
-                onEditPickUp={() => {}}
-                onEditDropOff={() => {}}
-                termsAccepted={termsAccepted}
+                onEditPickUp={handleEditPickUp}
+                onEditDropOff={handleEditDropOff}
                 paymentTermsAccepted={paymentTermsAccepted}
-                onTermsChange={setTermsAccepted}
                 onPaymentTermsChange={setPaymentTermsAccepted}
                 onReserve={handleReserve}
               />
@@ -295,7 +268,10 @@ export default function BookingPage() {
         </div>
       </main>
 
-      <Footer />
+      {/* Footer - Hidden on mobile */}
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </div>
   );
 }

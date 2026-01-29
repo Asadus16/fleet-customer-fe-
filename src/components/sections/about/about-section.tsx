@@ -19,26 +19,26 @@ export function AboutSection({
   imageAlt = 'Dominique and Cade King',
 }: AboutSectionProps) {
   return (
-    <section className="bg-white pb-20 pt-4">
-      <div className="mx-auto max-w-[888px]">
+    <section id="about" className="bg-white pb-24 pt-8 sm:pb-16 sm:pt-4 lg:pb-20 scroll-mt-20">
+      <div className="mx-auto max-w-222 mobile-section-padding lg:px-0">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:justify-between lg:gap-16">
           {/* Text Content */}
-          <div className="max-w-[380px]">
-            <p className="text-xs font-light leading-[1.61] text-slate-600">{greeting}</p>
-            <p className="mt-4 text-xs font-light leading-[1.61] text-slate-600">
+          <div className="w-full lg:max-w-95">
+            <p className="section-paragraph text-slate-600">{greeting}</p>
+            <p className="mt-4 section-paragraph text-slate-600">
               We are{' '}
               <span className="font-semibold text-[#1a2332]">{founders.name1}</span> and{' '}
               <span className="font-semibold text-[#1a2332]">{founders.name2}</span>.
             </p>
             {paragraphs.map((paragraph, index) => (
-              <p key={index} className="mt-4 text-xs font-light leading-[1.61] text-slate-600">
+              <p key={index} className="mt-4 section-paragraph text-slate-600">
                 {paragraph}
               </p>
             ))}
           </div>
 
           {/* Image */}
-          <div className="relative h-[285px] w-[381px] flex-shrink-0 overflow-hidden">
+          <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden lg:aspect-auto lg:h-71.25 lg:w-95.25">
             <Image
               src={image}
               alt={imageAlt}

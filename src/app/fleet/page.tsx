@@ -39,7 +39,7 @@ export default function FleetPage() {
       <BookingBar />
 
       {/* Main Content */}
-      <main className="mx-auto max-w-6xl px-4 py-12">
+      <main className="mx-auto max-w-6xl mobile-section-padding py-8 md:py-12">
         {/* Search Header */}
         <FleetSearch
           searchValue={searchValue}

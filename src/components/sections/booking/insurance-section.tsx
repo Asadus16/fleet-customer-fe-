@@ -21,11 +21,12 @@ export function InsuranceSection({ options, selectedId, onSelect }: InsuranceSec
     <section>
       <h2 className="font-manrope text-base font-semibold leading-none tracking-tight-2 text-[#141543]">Insurance</h2>
 
-      <div className="mt-5 grid grid-cols-3 gap-4">
+      <div className="mt-5 -mx-4 px-4 overflow-x-auto md:mx-0 md:px-0 md:overflow-visible">
+        <div className="flex gap-4 md:grid md:grid-cols-3">
         {options.map((option, index) => (
           <div
             key={option.id}
-            className={`relative cursor-pointer rounded-lg border px-3 py-2 transition-colors ${
+            className={`relative cursor-pointer rounded-lg border px-3 py-2 transition-colors min-w-[200px] flex-shrink-0 md:min-w-0 md:flex-shrink ${
               selectedId === option.id
                 ? 'border-primary bg-primary/5'
                 : 'border-[#f4f4f4] hover:border-slate-300'
@@ -90,6 +91,7 @@ export function InsuranceSection({ options, selectedId, onSelect }: InsuranceSec
             )}
           </div>
         ))}
+        </div>
       </div>
     </section>
   );

@@ -6,10 +6,10 @@ interface HeroSectionProps {
 
 export function HeroSection({ backgroundImage = '/images/hero-bg.jpg' }: HeroSectionProps) {
   return (
-    <section className="relative">
+    <section className="relative pb-8 sm:pb-0">
       {/* Background Image */}
       <div
-        className="relative h-[450px] bg-cover bg-center bg-no-repeat md:h-[540px]"
+        className="relative h-112.5 bg-cover bg-center bg-no-repeat md:h-135"
         style={{
           backgroundImage: `url(${backgroundImage})`,
         }}
@@ -19,7 +19,7 @@ export function HeroSection({ backgroundImage = '/images/hero-bg.jpg' }: HeroSec
       </div>
 
       {/* Booking Form - Positioned to overlap */}
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-0 sm:px-6 lg:px-8">
         <div className="-mt-16 md:-mt-20">
           <BookingForm />
         </div>

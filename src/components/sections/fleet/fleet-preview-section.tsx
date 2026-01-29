@@ -28,24 +28,21 @@ export function FleetPreviewSection({
   showExploreButton = true,
 }: FleetPreviewSectionProps) {
   return (
-    <section
-      className="py-20"
-      style={{ background: 'radial-gradient(65.36% 57.7% at 50% 57.7%, rgba(251, 251, 251, 0) 0%, #FBFBFB 100%)' }}
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="fleet" className="fleet-section py-20 sm:py-16 lg:py-20 scroll-mt-20">
+      <div className="mx-auto max-w-7xl mobile-section-padding">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-bold tracking-tight-2 text-primary-light">{title}</p>
-          <h2 className="mt-2 text-[36px] font-bold leading-[1.17] tracking-tight-2 text-slate-900">
+          <h2 className="mt-2 text-4xl font-bold leading-[1.17] tracking-tight-2 text-slate-900 lg:text-[36px]">
             {subtitle}
           </h2>
-          <p className="mt-4 text-xs font-light leading-[1.61] text-slate-600">{description}</p>
+          <p className="section-paragraph mt-4 text-slate-600">{description}</p>
         </div>
 
         {/* Vehicle Cards */}
-        <div className="mt-12 flex flex-wrap justify-center gap-6">
+        <div className="mt-16 flex flex-col items-center gap-6 sm:mt-12 sm:flex-row sm:flex-wrap sm:justify-center">
           {vehicles.map((vehicle) => (
-            <div key={vehicle.id} className="w-[280px]">
+            <div key={vehicle.id} className="w-full max-w-70 sm:w-70">
               <VehicleCard {...vehicle} />
             </div>
           ))}
@@ -53,7 +50,7 @@ export function FleetPreviewSection({
 
         {/* Explore More Button */}
         {showExploreButton && (
-          <div className="mt-12 text-center">
+          <div className="mt-8 text-center sm:mt-12">
             <Link
               href="/fleet"
               className="inline-block rounded-lg bg-primary px-10 py-4 text-sm font-medium text-white transition-colors hover:bg-primary-hover"

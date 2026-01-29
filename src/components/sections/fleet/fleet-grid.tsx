@@ -17,19 +17,20 @@ interface FleetGridProps {
 
 export function FleetGrid({ vehicles }: FleetGridProps) {
   return (
-    <div className="grid grid-cols-4 gap-6">
+    <div className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {vehicles.map((vehicle) => (
-        <VehicleCard
-          key={vehicle.id}
-          id={vehicle.id}
-          name={vehicle.name}
-          image={vehicle.image}
-          location={vehicle.location}
-          seats={vehicle.seats}
-          transmission={vehicle.transmission}
-          fuelType={vehicle.fuelType}
-          pricePerDay={vehicle.pricePerDay}
-        />
+        <div key={vehicle.id} className="w-full max-w-70 sm:max-w-none">
+          <VehicleCard
+            id={vehicle.id}
+            name={vehicle.name}
+            image={vehicle.image}
+            location={vehicle.location}
+            seats={vehicle.seats}
+            transmission={vehicle.transmission}
+            fuelType={vehicle.fuelType}
+            pricePerDay={vehicle.pricePerDay}
+          />
+        </div>
       ))}
     </div>
   );
