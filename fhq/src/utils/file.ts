@@ -6,9 +6,11 @@
  */
 export function base64ToFile(dataUrl: string, filename: string): File {
   const arr = dataUrl.split(',');
-  const mimeMatch = arr[0].match(/:(.*?);/);
+  const header = arr[0] || '';
+  const data = arr[1] || '';
+  const mimeMatch = header.match(/:(.*?);/);
   const mime = mimeMatch ? mimeMatch[1] : 'image/png';
-  const bstr = atob(arr[1]);
+  const bstr = atob(data);
   let n = bstr.length;
   const u8arr = new Uint8Array(n);
 

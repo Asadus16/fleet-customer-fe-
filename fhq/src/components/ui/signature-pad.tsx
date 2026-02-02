@@ -26,6 +26,7 @@ export function SignaturePad({ label, onSignatureChange }: SignaturePadProps) {
       window.addEventListener('resize', updateSize);
       return () => window.removeEventListener('resize', updateSize);
     }
+    return undefined;
   }, [isFullscreen]);
 
   const clearSignature = () => {
