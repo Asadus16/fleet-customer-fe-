@@ -12,9 +12,14 @@ import {
   BookingSidebar,
 } from '@/components/sections/booking';
 import { ValidationModal } from '@/components/ui';
-import { useFleet } from '@/hooks/useFleets';
-import { useInsuranceOptions, useFleetExtras, useCreateBooking } from '@/hooks/useBooking';
-import { useCompanySettings, useDefaultAgreementTemplate } from '@/hooks/useAgreements';
+import {
+  useFleet,
+  useInsuranceOptions,
+  useFleetExtras,
+  useCreateBooking,
+  useCompanySettings,
+  useDefaultAgreementTemplate,
+} from '@/hooks';
 import { extras as defaultExtras } from '@/data/booking';
 
 // Helper to format date for display

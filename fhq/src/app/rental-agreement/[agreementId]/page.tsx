@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { PolicyPageLayout } from '@/components/layout';
 import { RentalAgreementPreview } from '@/components/sections';
-import { useAgreement, useAcceptAgreement } from '@/hooks/useAgreements';
+import { useAgreement, useAcceptAgreement } from '@/hooks';
 import { Spinner, ValidationModal } from '@/components/ui';
 import type { AgreementData } from '@/services/agreementServices';
 

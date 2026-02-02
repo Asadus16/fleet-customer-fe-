@@ -8,7 +8,7 @@ import {
   FleetGrid,
   Pagination,
 } from '@/components/sections/fleet';
-import { useFleets } from '@/hooks/useFleets';
+import { useFleets } from '@/hooks';
 
 const ITEMS_PER_PAGE = 12;
 

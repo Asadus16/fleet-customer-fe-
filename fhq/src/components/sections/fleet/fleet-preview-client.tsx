@@ -1,6 +1,6 @@
 'use client';
 
-import { useFleets } from '@/hooks/useFleets';
+import { useFleets } from '@/hooks';
 import { FleetPreviewSection } from './fleet-preview-section';
 
 interface FleetPreviewClientProps {

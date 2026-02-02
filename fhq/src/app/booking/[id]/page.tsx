@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { Header, Footer } from '@/components/layout';
 import { Button, Spinner } from '@/components/ui';
-import { useBookingDetails } from '@/hooks/useBooking';
+import { useBookingDetails } from '@/hooks';
 import type { BookingDetails } from '@/services/bookingServices';
 
 const PLACEHOLDER_IMAGE = '/images/vehicles/car_placeholder.png';
