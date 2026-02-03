@@ -63,8 +63,6 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "fhq/.next/types/**/*.ts",
-    "fhq/.next/dev/types/**/*.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],

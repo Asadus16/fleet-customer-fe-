@@ -6,6 +6,7 @@ import { PolicyPageLayout } from '@/components/layout';
 import { RentalAgreementPreview } from '@/components/sections';
 import { useAgreement, useAcceptAgreement } from '@/hooks';
 import { Spinner, ValidationModal } from '@/components/ui';
+import { rentalAgreementContent } from '@/data/policies';
 import type { AgreementData } from '@/services/agreementServices';
 
 function RentalAgreementContent() {
@@ -120,8 +121,8 @@ function RentalAgreementContent() {
   return (
     <>
       <PolicyPageLayout
-        title={agreement.template.title}
-        description={agreement.template.description}
+        title={rentalAgreementContent.title}
+        description={rentalAgreementContent.description}
         primaryButtonLabel={isSigned ? 'Signed' : isAccepting ? 'Saving...' : 'Save'}
         onPrimaryAction={isSigned ? undefined : handleSave}
       >

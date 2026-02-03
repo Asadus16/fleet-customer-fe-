@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCompany } from '@/contexts';
 
 const quickLinks = [
   { label: 'About', href: '/#about' },
@@ -14,24 +17,29 @@ const socialLinks = [
   { label: 'GitHub', href: '#', icon: '/icons/footer/github.svg' },
 ];
 
+// Default values when company data is not available
+const DEFAULT_LOGO = '/logos/mono-logo.png';
+const DEFAULT_DESCRIPTION = 'Professional fleet management and car rental services for your business needs.';
+
 interface FooterProps {
   companyDescription?: string;
-  phone?: string;
-  email?: string;
-  address?: {
-    street: string;
-    city: string;
-  };
   hasCTAOverlap?: boolean;
 }
 
 export function Footer({
-  companyDescription = 'Serving Ketchikan and Southeast Alaska for over 20 years with reliable, practical car rentals for locals, visitors, and traveling workers.',
-  phone = '+1 907-617-3765',
-  email = 'dominiqueking6@gmail.com',
-  address = { street: '123 Main Street', city: 'Ketchikan, AK 99901' },
+  companyDescription,
   hasCTAOverlap = false,
 }: FooterProps) {
+  const { company } = useCompany();
+
+  // Use company data with fallbacks
+  const logo = company?.logo || DEFAULT_LOGO;
+  const companyName = company?.name || 'Fleet HQ';
+  const phone = company?.phone || '+1 (555) 000-0000';
+  const email = company?.email || 'support@fleethq.com';
+  const address = company?.address || 'United States';
+  const description = companyDescription || DEFAULT_DESCRIPTION;
+
   return (
     <footer id="contact" className={`bg-[#141543] ${hasCTAOverlap ? 'pt-10 sm:pt-36' : 'pt-10'} scroll-mt-20`}>
       <div className="mx-auto max-w-240 footer-padding py-10">
@@ -41,15 +49,16 @@ export function Footer({
             {/* Logo */}
             <div className="mb-4 sm:mb-6">
               <Image
-                src="/logos/mono-logo.png"
-                alt="Kings Car Rental"
+                src={logo}
+                alt={companyName}
                 width={80}
                 height={80}
                 className="h-16 w-auto"
+                unoptimized={logo.startsWith('http')}
               />
             </div>
             <p className="mb-4 text-xs font-light leading-tight text-white sm:mb-6">
-              {companyDescription}
+              {description}
             </p>
             {/* Social Links */}
             <div className="mb-4 flex gap-3 sm:mb-0">
@@ -116,11 +125,7 @@ export function Footer({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span>
-                    {address.street}
-                    <br />
-                    {address.city}
-                  </span>
+                  <span>{address}</span>
                 </li>
               </ul>
             </div>
@@ -132,8 +137,8 @@ export function Footer({
       <div className="mx-auto max-w-240 footer-padding">
         <div className="border-t border-[rgba(192,196,201,1)] py-6 pb-20 sm:pb-8">
           <p className="text-center text-2xs font-light leading-none text-white">
-            © {new Date().getFullYear()} Kings Car Rental. All rights reserved. | Powered by{' '}
-            <a href="#" className="font-bold text-white hover:underline">
+            © {new Date().getFullYear()} {companyName}. All rights reserved. | Powered by{' '}
+            <a href="https://fleethq.io" className="font-bold text-white hover:underline">
               FleetHQ
             </a>
           </p>

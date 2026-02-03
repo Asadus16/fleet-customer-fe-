@@ -109,6 +109,12 @@ export function RentalAgreementPreview({ data, onSignatureChange }: RentalAgreem
       maximumMiles: 'Unlimited',
       overageFee: '$0.00',
     },
+    invoice: {
+      carrierName: 'Invoice Carrier',
+      policyNumber: 'INV-000000',
+      expires: 'December 31, 2026',
+      policyDetails: 'Invoice Details',
+    },
     clauses: [],
     template: {
       title: 'Rental Agreement',
@@ -187,6 +193,16 @@ export function RentalAgreementPreview({ data, onSignatureChange }: RentalAgreem
         />
         <FieldRow label="Overage Fee" value={agreementData.vehicle.overageFee} />
       </Section>
+
+      {/* Invoice */}
+      {agreementData.invoice && (
+        <Section title="Invoice">
+          <FieldRow label="Carrier Name" value={agreementData.invoice.carrierName} />
+          <FieldRow label="Policy Number" value={agreementData.invoice.policyNumber} />
+          <FieldRow label="Expires" value={agreementData.invoice.expires} />
+          <FieldRow label="Policy Details" value={agreementData.invoice.policyDetails} />
+        </Section>
+      )}
 
       {/* Terms & Conditions */}
       <Section title="Terms & Conditions">

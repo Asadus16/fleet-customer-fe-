@@ -1,8 +1,8 @@
 import axios from 'axios';
 import axiosInstance from '@/utils/axios';
+import { getDomain } from '@/utils/company';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const COMPANY_ID = process.env.NEXT_PUBLIC_COMPANY_ID;
 
 // Insurance option from API
 export interface ApiInsuranceOption {
@@ -374,6 +374,9 @@ function generateRandomPassword(): string {
 // Note: Using plain axios to avoid custom headers that trigger CORS preflight
 async function createCustomer(customer: CustomerData): Promise<number> {
   const password = generateRandomPassword();
+  const domain = getDomain();
+  // Limit phone to 15 characters (API validation limit)
+  const phone = customer.phone_no.slice(0, 15);
   const res = await axios.post<{ id: number }>(
     `${API_URL}/api/users-auth/register/`,
     {
@@ -382,10 +385,10 @@ async function createCustomer(customer: CustomerData): Promise<number> {
       confirm_password: password,
       first_name: customer.first_name,
       last_name: customer.last_name,
-      phone: customer.phone_no,
-      company: COMPANY_ID ? Number(COMPANY_ID) : undefined,
+      phone: phone,
     },
     {
+      params: { domain },
       headers: {
         'Content-Type': 'application/json',
       },

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { Inter, Manrope, Kameron } from 'next/font/google';
 import '@/styles/globals.css';
 import { APP_CONFIG } from '@/constants/config';
-import { MobilePanelProvider } from '@/contexts';
+import { MobilePanelProvider, CompanyProvider } from '@/contexts';
 import { Providers } from './providers';
 
 const inter = Inter({
@@ -47,9 +47,11 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${manrope.variable} ${kameron.variable}`}>
       <body className="min-h-screen bg-slate-50 font-sans antialiased">
         <Providers>
-          <MobilePanelProvider>
-            {children}
-          </MobilePanelProvider>
+          <CompanyProvider>
+            <MobilePanelProvider>
+              {children}
+            </MobilePanelProvider>
+          </CompanyProvider>
         </Providers>
       </body>
     </html>

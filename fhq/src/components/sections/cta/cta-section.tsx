@@ -10,7 +10,7 @@ interface CTASectionProps {
 
 export function CTASection({
   title = 'Book your ride today!',
-  description = "Ready to hit the road? Booking with Kings Car Rentals, LLC is fast and simple. Browse our fleet online, choose your vehicle, and reserve it within minutes. For personalized assistance, feel free to contact our team directly.",
+  description = "Ready to hit the road? Booking with us is fast and simple. Browse our fleet online, choose your vehicle, and reserve it within minutes. For personalized assistance, feel free to contact our team directly.",
   buttonText = 'Book Now',
   buttonHref = '/book',
   backgroundImage = '/images/cta-bg.jpg',

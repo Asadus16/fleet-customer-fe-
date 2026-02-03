@@ -277,8 +277,7 @@ export default function BookingPage() {
       return;
     }
 
-    // TODO: Re-enable API call when backend CORS is fixed
-    // For now, store booking data in localStorage and redirect
+    // Generate temp ID for localStorage fallback
     const tempBookingId = `temp-${Date.now()}`;
     const bookingData = {
       id: tempBookingId,
@@ -371,6 +370,12 @@ export default function BookingPage() {
         maximumMiles: vehicleData.milesPerDay ? `${vehicleData.milesPerDay * rentalDays} miles total` : 'Unlimited',
         overageFee: vehicleData.milesOverageRate ? `$${Number(vehicleData.milesOverageRate).toFixed(2)}/mile` : '$0.00',
       },
+      invoice: {
+        carrierName: companySettings?.name || 'Fleet HQ',
+        policyNumber: `INV-${tempBookingId}`,
+        expires: 'N/A',
+        policyDetails: 'Invoice details',
+      },
       clauses: agreementTemplate?.clauses || [],
       template: {
         title: agreementTemplate?.title || 'Vehicle Rental Agreement',
@@ -378,42 +383,38 @@ export default function BookingPage() {
       },
     };
 
-    // Store in localStorage
+    // Store in localStorage as fallback for agreement page
     localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
     localStorage.setItem('pendingAgreement', JSON.stringify(agreementData));
-    router.push(`/booking/${tempBookingId}` as never);
 
-    // Create booking via API (commented out for UI testing)
-    // createBookingMutation(
-    //   {
-    //     fleet_id: Number(vehicleId),
-    //     customer: {
-    //       first_name: firstName.trim(),
-    //       last_name: lastName.trim(),
-    //       email: email.trim(),
-    //       phone_no: `${countryCode}${phone.trim()}`,
-    //     },
-    //     pickup_datetime: pickupDatetime,
-    //     dropoff_datetime: dropoffDatetime,
-    //     pickup_location_id: pickupLocationId,
-    //     insurance_option_id: selectedInsurance !== 'own' ? Number(selectedInsurance) : undefined,
-    //     extras: selectedExtraIds.length > 0 ? selectedExtraIds : undefined,
-    //     discount_code: discountCode,
-    //   },
-    //   {
-    //     onSuccess: (data) => {
-    //       router.push(`/booking/${data.id}` as never);
-    //     },
-    //     onError: (error) => {
-    //       console.error('Booking creation failed:', error);
-    //       setValidationModal({
-    //         isOpen: true,
-    //         title: 'Booking Failed',
-    //         message: 'Failed to create booking. Please try again.',
-    //       });
-    //     },
-    //   }
-    // );
+    // Create booking via API (registers customer first, then creates booking)
+    createBookingMutation(
+      {
+        fleet_id: Number(vehicleId),
+        customer: {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          email: email.trim(),
+          phone_no: `${countryCode}${phone.trim()}`,
+        },
+        pickup_datetime: pickupDatetime,
+        dropoff_datetime: dropoffDatetime,
+        pickup_location_id: pickupLocationId,
+        insurance_option_id: selectedInsurance !== 'own' ? Number(selectedInsurance) : undefined,
+        extras: selectedExtraIds.length > 0 ? selectedExtraIds : undefined,
+        discount_code: discountCode,
+      },
+      {
+        onSuccess: (data) => {
+          router.push(`/booking/${data.id}` as never);
+        },
+        onError: (error) => {
+          console.error('Booking creation failed:', error);
+          // Fall back to temp booking on error
+          router.push(`/booking/${tempBookingId}` as never);
+        },
+      }
+    );
   };
 
   const handleEditPickUp = () => {};

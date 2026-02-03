@@ -5,10 +5,9 @@ import {
   Vehicle,
   transformApiVehicle,
 } from '@/types/vehicle';
+import { getDomainParams } from '@/utils/company';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const COMPANY_ID = process.env.NEXT_PUBLIC_COMPANY_ID;
-const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
 export interface ListFleetsParams {
   page?: number;
@@ -22,20 +21,21 @@ export interface ListFleetsResponse {
   results: Vehicle[];
 }
 
-// Use service token for fleet endpoints
+// Fetch fleets using public endpoint with domain param
 export async function listFleets(
   params?: ListFleetsParams,
 ): Promise<ListFleetsResponse> {
+  const domainParams = getDomainParams();
+
   const res = await axios.get<ApiPaginatedResponse<ApiVehicle>>(
-    `${API_URL}/api/fleets/list/`,
+    `${API_URL}/api/fleets/public/`,
     {
       params: {
         ...params,
-        company: COMPANY_ID,
+        ...domainParams,
       },
       headers: {
         'Content-Type': 'application/json',
-        ...(API_TOKEN && { Authorization: `Bearer ${API_TOKEN}` }),
       },
     },
   );
@@ -52,11 +52,14 @@ export async function listFleets(
 }
 
 export async function getFleetById(id: number | string): Promise<Vehicle> {
-  const res = await axios.get<ApiVehicle>(`${API_URL}/api/fleets/list/${id}/`, {
+  const domainParams = getDomainParams();
+
+  const res = await axios.get<ApiVehicle>(`${API_URL}/api/fleets/public/${id}/`, {
+    params: domainParams,
     headers: {
       'Content-Type': 'application/json',
-      ...(API_TOKEN && { Authorization: `Bearer ${API_TOKEN}` }),
     },
   });
+
   return transformApiVehicle(res.data);
 }

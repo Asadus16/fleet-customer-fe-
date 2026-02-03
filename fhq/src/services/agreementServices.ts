@@ -1,6 +1,8 @@
+import axios from 'axios';
 import axiosInstance from '@/utils/axios';
+import { getDomainParams } from '@/utils/company';
 
-const COMPANY_ID = process.env.NEXT_PUBLIC_COMPANY_ID;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // API response types
 export interface ApiClause {
@@ -125,6 +127,12 @@ export interface AgreementData {
     maximumMiles: string;
     overageFee: string;
   };
+  invoice?: {
+    carrierName: string;
+    policyNumber: string;
+    expires: string;
+    policyDetails: string;
+  };
   clauses: {
     id: number;
     title: string;
@@ -204,6 +212,12 @@ function transformAgreement(api: ApiAgreement): AgreementData {
       maximumMiles: 'Unlimited',
       overageFee: '$0.00',
     },
+    invoice: {
+      carrierName: company?.name || 'N/A',
+      policyNumber: `INV-${api.id}`,
+      expires: 'N/A',
+      policyDetails: 'Invoice details',
+    },
     clauses: api.template?.template_clauses?.map((tc) => ({
       id: tc.clause.id,
       title: tc.clause.title,
@@ -277,7 +291,7 @@ const DEFAULT_COMPANY = {
   logo: null,
 };
 
-// Get company settings for agreement display
+// Get company settings for agreement display (returns defaults, no public API available)
 export async function getCompanySettings(): Promise<{
   name: string;
   address: string;
@@ -285,29 +299,10 @@ export async function getCompanySettings(): Promise<{
   phone: string;
   logo: string | null;
 }> {
-  // Return defaults if no company ID is configured
-  if (!COMPANY_ID) {
-    return DEFAULT_COMPANY;
-  }
-
-  try {
-    const res = await axiosInstance.get(`/api/companies/${COMPANY_ID}/`);
-
-    const company = res.data;
-    return {
-      name: company?.name || DEFAULT_COMPANY.name,
-      address: company?.country || DEFAULT_COMPANY.address,
-      email: company?.email || DEFAULT_COMPANY.email,
-      phone: company?.phone_no || DEFAULT_COMPANY.phone,
-      logo: company?.company_picture || null,
-    };
-  } catch {
-    // Return default values if API fails
-    return DEFAULT_COMPANY;
-  }
+  return DEFAULT_COMPANY;
 }
 
-// Get default agreement template with clauses
+// Get active clauses for agreement
 export interface AgreementTemplate {
   id: number;
   title: string;
@@ -316,48 +311,37 @@ export interface AgreementTemplate {
 }
 
 export async function getDefaultAgreementTemplate(): Promise<AgreementTemplate | null> {
-  if (!COMPANY_ID) {
+  const domainParams = getDomainParams();
+
+  if (Object.keys(domainParams).length === 0) {
     return null;
   }
 
   try {
-    // Step 1: Get templates for this company
-    const res = await axiosInstance.get('/api/agreements/templates/', {
-      params: { company: COMPANY_ID },
+    const res = await axios.get(`${API_URL}/api/agreements/clauses/public/`, {
+      params: { ...domainParams, is_active: true, page_size: 100 },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
-    const templates = res.data?.results || res.data || [];
-    if (templates.length === 0) {
-      return null;
-    }
+    const clauses = res.data?.results || res.data || [];
 
-    // Find the active (LIVE) template, or fall back to first template
-    const activeTemplate = templates.find((t: { is_active: boolean }) => t.is_active) || templates[0];
-
-    // Step 2: Fetch template clauses separately (list endpoint doesn't include them)
-    const clausesRes = await axiosInstance.get(
-      `/api/agreements/templates/${activeTemplate.id}/template-clauses/`
-    );
-
-    const templateClauses = clausesRes.data?.results || clausesRes.data || [];
-
-    // Sort by order and extract clause data
-    const sortedClauses = templateClauses
-      .sort((a: { order: number }, b: { order: number }) => (a.order || 0) - (b.order || 0))
-      .map((tc: { clause: { id: number; title: string; content: string } }) => ({
-        id: tc.clause.id,
-        title: tc.clause.title,
-        content: tc.clause.content,
-      }));
+    // Map clauses to the expected format
+    const formattedClauses = clauses.map((clause: { id: number; title: string; content: string }) => ({
+      id: clause.id,
+      title: clause.title,
+      content: clause.content,
+    }));
 
     return {
-      id: activeTemplate.id,
-      title: activeTemplate.title || 'Vehicle Rental Agreement',
-      description: activeTemplate.description || 'Please review and sign this rental agreement before pickup.',
-      clauses: sortedClauses,
+      id: 0,
+      title: 'Vehicle Rental Agreement',
+      description: 'Please review and sign this rental agreement before pickup.',
+      clauses: formattedClauses,
     };
   } catch (error) {
-    console.error('Failed to fetch agreement template:', error);
+    console.error('Failed to fetch active clauses:', error);
     return null;
   }
 }

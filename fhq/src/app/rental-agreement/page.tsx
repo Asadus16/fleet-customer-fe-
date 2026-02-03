@@ -99,8 +99,8 @@ function RentalAgreementContent() {
   return (
     <>
       <PolicyPageLayout
-        title={agreement?.template.title || rentalAgreementContent.title}
-        description={agreement?.template.description || rentalAgreementContent.description}
+        title={rentalAgreementContent.title}
+        description={rentalAgreementContent.description}
         primaryButtonLabel={isSigned ? 'Signed' : 'Save'}
         onPrimaryAction={isSigned ? undefined : handleSave}
       >

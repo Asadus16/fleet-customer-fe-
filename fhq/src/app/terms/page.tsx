@@ -2,17 +2,41 @@
 
 import { Suspense } from 'react';
 import { PolicyPageLayout } from '@/components/layout';
-import { PolicySections } from '@/components/sections';
-import { termsContent } from '@/data/policies';
+import { useDefaultAgreementTemplate } from '@/hooks';
+import { Spinner } from '@/components/ui';
 
 function TermsAndConditionsContent() {
+  const { data: agreementTemplate, isLoading } = useDefaultAgreementTemplate();
+
+  const clauses = agreementTemplate?.clauses || [];
+
   return (
     <PolicyPageLayout
-      title={termsContent.title}
-      description={termsContent.description}
+      title="Terms and Conditions"
+      description="Please review our terms and conditions before proceeding with your rental."
       primaryButtonLabel="Accept"
     >
-      <PolicySections sections={termsContent.sections} />
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <Spinner size="lg" />
+        </div>
+      ) : clauses.length === 0 ? (
+        <p className="text-gray-500 italic py-8">No terms and conditions available.</p>
+      ) : (
+        <div className="space-y-8">
+          {clauses.map((clause, index) => (
+            <section key={clause.id}>
+              <h2 className="font-manrope text-base font-semibold leading-none tracking-tight-2 text-[#141543]">
+                {index + 1}. {clause.title}
+              </h2>
+              <div
+                className="mt-4 text-xs font-light leading-[1.61] text-slate-600 prose prose-sm max-w-none"
+                dangerouslySetInnerHTML={{ __html: clause.content }}
+              />
+            </section>
+          ))}
+        </div>
+      )}
     </PolicyPageLayout>
   );
 }

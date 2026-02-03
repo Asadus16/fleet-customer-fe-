@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useMobilePanel } from '@/contexts';
+import { useMobilePanel, useCompany } from '@/contexts';
 
 const navLinks = [
   { label: 'About', href: '/#about' },
@@ -12,14 +12,23 @@ const navLinks = [
   { label: 'Contact', href: '/#contact' },
 ];
 
+// Default values when company data is not available
+const DEFAULT_LOGO = '/logos/website-logo.svg';
+const DEFAULT_PHONE = '+1 907-617-3765';
+
 interface HeaderProps {
-  phoneNumber?: string;
   showBorderBottom?: boolean;
 }
 
-export function Header({ phoneNumber = '+1 907-617-3765', showBorderBottom = false }: HeaderProps) {
+export function Header({ showBorderBottom = false }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isMobilePanelOpen } = useMobilePanel();
+  const { company } = useCompany();
+
+  // Use company data with fallbacks
+  const logo = company?.logo || DEFAULT_LOGO;
+  const companyName = company?.name || 'Fleet HQ';
+  const phoneNumber = company?.phone || DEFAULT_PHONE;
 
   // Hide bottom border on mobile when booking panel is open
   const mobileBottomBorder = isMobilePanelOpen ? '' : 'border-b border-[#e5e7eb] lg:border-0';
@@ -32,11 +41,12 @@ export function Header({ phoneNumber = '+1 907-617-3765', showBorderBottom = fal
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/logos/website-logo.svg"
-              alt="Kings Car Rental"
+              src={logo}
+              alt={companyName}
               width={72}
               height={72}
               className="h-18 w-auto"
+              unoptimized={logo.startsWith('http')}
             />
           </Link>
 
